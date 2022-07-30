@@ -31,7 +31,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(query);
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [CREATE TABLE]");
+            System.out.println("Что-то пошло не так! [СОЗДАНИЕ ТАБЛИЦЫ]");
         }
     }
 
@@ -43,7 +43,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(query);
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [DROP TABLE]");
+            System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ТАБЛИЦЫ]");
         }
     }
 
@@ -55,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(query);
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [SAVE USER]");
+            System.out.println("Что-то пошло не так! [СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЕЙ]");
         }
     }
 
@@ -67,7 +67,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(query);
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [REMOVE USER]");
+            System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ]");
         }
     }
 
@@ -91,7 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [GET ALL USERS]");
+            System.out.println("Что-то пошло не так! [ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ]");
         }
 
         return userList;
@@ -105,7 +105,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(query);
         } catch (SQLException e) {
-            System.out.println("Something went wrong! [CLEAN TABLE]");
+            System.out.println("Что-то пошло не так! [ОТЧИСТКА ТАБЛИЦЫ]");
         }
     }
 }

@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    // реализуйте настройку соеденения с БД
     private static final String URL = Main.getURL();
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";

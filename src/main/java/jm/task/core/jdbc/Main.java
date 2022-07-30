@@ -11,12 +11,12 @@ public class Main {
     public static String getDBName() {
         return "mydbtest.users";
     }
-    public static String getURL(){
+
+    public static String getURL() {
         return "jdbc:mysql://localhost:3306/mydbtest";
     }
 
     public static void main(String[] args) {
-        // реализуйте алгоритм здесь
         UserService userService = new UserServiceImpl();
 
         userService.createUsersTable();
