@@ -38,6 +38,7 @@ public class UserDaoJDBCImpl implements UserDao {
             String query = "DROP TABLE " + Util.getDBName();
 
             statement.execute(query);
+//            Util.getConnection().rollback();
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ТАБЛИЦЫ]");
         }
@@ -91,11 +92,10 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (Statement statement = Util.getConnection().createStatement()) {
-
-            String query = "DELETE FROM " + Util.getDBName();
-
-            statement.execute(query);
+        try {
+            Util.getConnection().rollback();
+//            String query = "DELETE FROM " + Util.getDBName();
+//            statement.execute(query);
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [ОТЧИСТКА ТАБЛИЦЫ]");
         }

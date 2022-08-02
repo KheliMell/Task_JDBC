@@ -30,7 +30,6 @@ public class Util {
 
     public static Connection getConnection() throws SQLException {
         if (connection == null) {
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             connection.setAutoCommit(false);
             connection.commit();
