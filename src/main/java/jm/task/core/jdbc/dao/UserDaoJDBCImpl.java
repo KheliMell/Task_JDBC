@@ -22,9 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     " `name` VARCHAR(45) ," +
                     " `lastName` VARCHAR(45) ," +
                     " `age` TINYINT(0) UNSIGNED ," +
-                    " PRIMARY KEY (`id`))\n" +
-                    "ENGINE = InnoDB\n" +
-                    "DEFAULT CHARACTER SET = utf8;";
+                    " PRIMARY KEY (`id`))";
 
             statement.execute(query);
         } catch (SQLException e) {
