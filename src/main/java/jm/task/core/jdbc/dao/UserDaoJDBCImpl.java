@@ -38,7 +38,6 @@ public class UserDaoJDBCImpl implements UserDao {
             String query = "DROP TABLE " + Util.getDBName();
 
             statement.execute(query);
-//            Util.getConnection().rollback();
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ТАБЛИЦЫ]");
         }
@@ -50,6 +49,8 @@ public class UserDaoJDBCImpl implements UserDao {
             String query = "INSERT INTO " + Util.getDBName() + " (name, lastName, age) values ('" + name + "', '" + lastName + "', '" + age + "')";
 
             statement.execute(query);
+
+            System.out.println("User с именем " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЕЙ]");
         }
