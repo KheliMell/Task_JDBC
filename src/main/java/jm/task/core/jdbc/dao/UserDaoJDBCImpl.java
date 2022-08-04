@@ -1,8 +1,10 @@
 package jm.task.core.jdbc.dao;
 
+import jm.task.core.jdbc.Main;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,51 +17,87 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        try (Statement statement = Util.getConnection().createStatement()) {
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
 
-            String query = "CREATE TABLE " + Util.getDBName() +
-                    "(`id` INT NOT NULL AUTO_INCREMENT," +
-                    " `name` VARCHAR(45) ," +
-                    " `lastName` VARCHAR(45) ," +
-                    " `age` TINYINT(0) UNSIGNED ," +
-                    " PRIMARY KEY (`id`))";
+                String sql = "CREATE TABLE " + Main.getDBName() +
+                        "(`id` INT NOT NULL AUTO_INCREMENT," +
+                        " `name` VARCHAR(45) ," +
+                        " `lastName` VARCHAR(45) ," +
+                        " `age` TINYINT(0) UNSIGNED ," +
+                        " PRIMARY KEY (`id`))\n" +
+                        "ENGINE = InnoDB\n" +
+                        "DEFAULT CHARACTER SET = utf8;";
 
-            statement.execute(query);
+                statement.executeUpdate(sql);
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [СОЗДАНИЕ ТАБЛИЦЫ]");
         }
     }
 
     public void dropUsersTable() {
-        try (Statement statement = Util.getConnection().createStatement()) {
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
 
-            String query = "DROP TABLE " + Util.getDBName();
+                String sql = "DROP TABLE " + Main.getDBName();
 
-            statement.execute(query);
+                statement.executeUpdate(sql);
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ТАБЛИЦЫ]");
         }
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try (Statement statement = Util.getConnection().createStatement()) {
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
 
-            String query = "INSERT INTO " + Util.getDBName() + " (name, lastName, age) values ('" + name + "', '" + lastName + "', '" + age + "')";
+                String sql = "INSERT INTO " + Main.getDBName() +
+                        " (name, lastName, age) values " +
+                        "('" + name + "', '" + lastName + "', '" + age + "')";
 
-            statement.execute(query);
+                statement.executeUpdate(sql);
 
-            System.out.println("User с именем " + name + " добавлен в базу данных");
+                connection.commit();
+
+                System.out.println("User с именем " + name + " добавлен в базу данных");
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЕЙ]");
         }
     }
 
     public void removeUserById(long id) {
-        try (Statement statement = Util.getConnection().createStatement()) {
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
 
-            String query = "DELETE FROM " + Util.getDBName() + " WHERE id = " + id;
+                String sql = "DELETE FROM " + Main.getDBName() + " WHERE id = " + id;
 
-            statement.execute(query);
+                statement.executeUpdate(sql);
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЯ]");
         }
@@ -68,21 +106,27 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
 
-        try (Statement statement = Util.getConnection().createStatement()) {
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
 
-            String query = "SELECT * FROM " + Util.getDBName();
+                String sql = "SELECT * FROM " + Main.getDBName();
 
-            ResultSet result = statement.executeQuery(query);
-            while (result.next()) {
-                User user = new User();
-                user.setId(result.getLong("id"));
-                user.setName(result.getString("name"));
-                user.setLastName(result.getString("lastName"));
-                user.setAge(result.getByte("age"));
-                userList.add(user);
+                ResultSet result = statement.executeQuery(sql);
+                while (result.next()) {
+                    User user = new User();
+                    user.setId(result.getLong("id"));
+                    user.setName(result.getString("name"));
+                    user.setLastName(result.getString("lastName"));
+                    user.setAge(result.getByte("age"));
+                    userList.add(user);
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
             }
-
-
         } catch (SQLException e) {
             System.out.println("Что-то пошло не так! [ПОЛУЧЕНИЕ СПИСКА ПОЛЬЗОВАТЕЛЕЙ]");
         }
@@ -91,12 +135,22 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try {
-            Util.getConnection().rollback();
-//            String query = "DELETE FROM " + Util.getDBName();
-//            statement.execute(query);
+        try (Connection connection = Util.getConnection()) {
+            try {
+                Statement statement = connection.createStatement();
+
+                String sql = "DELETE FROM " + Main.getDBName();
+
+                statement.executeUpdate(sql);
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         } catch (SQLException e) {
-            System.out.println("Что-то пошло не так! [ОТЧИСТКА ТАБЛИЦЫ]");
+            System.out.println("Что-то пошло не так! [СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЕЙ]");
         }
+
     }
 }
